@@ -1,26 +1,102 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #faf9f7;
+  --foreground: #3d3d3d;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-cormorant: var(--font-cormorant);
+  --font-crimson: var(--font-crimson);
+  --font-lora: var(--font-lora);
+  
+  /* Elegant soft colors */
+  --color-cream-50: #fefcf9;
+  --color-cream-40: #faf8f4;
+  --color-cream-100: #f5f1ea;
+  --color-cream-200: #e8e0d5;
+  --color-cream-300: #d4c8b8;
+  
+  --color-soft-gray-600: #8b8b8b;
+  --color-soft-gray-700: #6b6b6b;
+  --color-soft-gray-800: #4a4a4a;
+  --color-soft-gray-900: #2d2d2d;
+  
+  --color-soft-gold-200: #f4e8d0;
+  --color-soft-gold-300: #e8d4b8;
+  --color-soft-gold-400: #d4b896;
+  --color-soft-gold-600: #b8966b;
+  --color-soft-gold-700: #9d7a52;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-lora), serif;
+}
+
+.font-cormorant {
+  font-family: var(--font-cormorant), serif;
+}
+
+.font-crimson {
+  font-family: var(--font-crimson), serif;
+}
+
+.font-lora {
+  font-family: var(--font-lora), serif;
+}
+
+/* Tailwind color extensions */
+.bg-cream-50 { background-color: var(--color-cream-50); }
+.bg-cream-40 { background-color: var(--color-cream-40); }
+.bg-cream-100 { background-color: var(--color-cream-100); }
+.bg-cream-200 { background-color: var(--color-cream-200); }
+.bg-cream-300 { background-color: var(--color-cream-300); }
+
+.text-cream-50 { color: var(--color-cream-50); }
+.text-cream-200 { color: var(--color-cream-200); }
+
+.text-soft-gray-600 { color: var(--color-soft-gray-600); }
+.text-soft-gray-700 { color: var(--color-soft-gray-700); }
+.text-soft-gray-800 { color: var(--color-soft-gray-800); }
+
+.bg-soft-gray-700 { background-color: var(--color-soft-gray-700); }
+.bg-soft-gray-800 { background-color: var(--color-soft-gray-800); }
+.bg-soft-gray-900 { background-color: var(--color-soft-gray-900); }
+
+.bg-soft-gold-200 { background-color: var(--color-soft-gold-200); }
+.bg-soft-gold-300 { background-color: var(--color-soft-gold-300); }
+
+.text-soft-gold-400 { color: var(--color-soft-gold-400); }
+.text-soft-gold-600 { color: var(--color-soft-gold-600); }
+.text-soft-gold-700 { color: var(--color-soft-gold-700); }
+
+.border-cream-200 { border-color: var(--color-cream-200); }
+
+/* Animations are now handled by framer-motion */
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f5f1ea;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d4c8b8;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b8966b;
 }
