@@ -49,6 +49,24 @@ body {
   font-family: var(--font-lora), serif;
 }
 
+.font-dancing {
+  font-family: var(--font-dancing), cursive;
+}
+
+.font-great-vibes {
+  font-family: var(--font-great-vibes), cursive;
+}
+
+.font-armenian {
+  font-family: var(--font-armenian), 'Noto Serif Armenian', serif;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+.font-playfair {
+  font-family: var(--font-playfair), serif;
+}
+
 /* Tailwind color extensions */
 .bg-cream-50 { background-color: var(--color-cream-50); }
 .bg-cream-40 { background-color: var(--color-cream-40); }

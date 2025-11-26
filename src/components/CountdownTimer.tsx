@@ -57,23 +57,31 @@ export default function CountdownTimer() {
   ];
 
   return (
-    <div className="flex gap-4 md:gap-6 justify-center flex-wrap">
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 max-w-2xl mx-auto">
       {timeUnits.map((unit, index) => (
         <motion.div
           key={index}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: index * 0.1, duration: 0.5 }}
           className="text-center"
         >
           <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="bg-cream-100/80 backdrop-blur-sm rounded-xl px-6 py-4 min-w-[80px] md:min-w-[100px] shadow-md border border-cream-200/50"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ 
+              delay: index * 0.1,
+              duration: 0.6,
+              ease: [0.25, 0.46, 0.45, 0.94]
+            }}
+            whileHover={{ 
+              scale: 1.05, 
+              backgroundColor: '#f9fafb',
+              transition: { duration: 0.3 }
+            }}
+            className="bg-gray-50 rounded-2xl p-6 border-2 border-gray-200 shadow-lg"
           >
-            <div className="text-3xl md:text-4xl font-cormorant font-semibold text-soft-gray-800">
+            <div className="font-playfair text-4xl md:text-5xl font-bold text-gray-900 mb-2">
               {String(unit.value).padStart(2, '0')}
             </div>
-            <div className="text-xs md:text-sm font-lora text-soft-gray-600 mt-1 uppercase tracking-wider">
+            <div className="font-crimson text-sm text-gray-600 uppercase tracking-wider">
               {unit.label}
             </div>
           </motion.div>

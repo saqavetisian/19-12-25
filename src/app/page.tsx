@@ -2,15 +2,15 @@
 
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useState } from "react";
 import CountdownTimer from "@/components/CountdownTimer";
-import { motion, AnimatePresence } from "framer-motion";
-import { FiMapPin, FiX, FiChevronDown, FiHome, FiHeart, FiCalendar } from "react-icons/fi";
+import AudioPlayer from "@/components/AudioPlayer";
+import { RussianFlag, ArmenianFlag } from "@/components/Flags";
+import { motion } from "framer-motion";
+import { FiMapPin, FiChevronDown, FiHome, FiHeart } from "react-icons/fi";
 import { MdChurch, MdRestaurant } from "react-icons/md";
 
 export default function Home() {
   const { t, language, setLanguage } = useLanguage();
-  const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
   const timeline = [
     {
@@ -47,223 +47,200 @@ export default function Home() {
     },
   ];
 
-  const coupleImages = [
-    '/couple-1.jpeg',
-    '/couple-2.jpeg',
-    '/couple-3.jpeg',
-    '/couple-4.jpeg',
-  ];
+  const fadeInUp = {
+    initial: { opacity: 0, y: 60 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }
+  };
+
+  const staggerContainer = {
+    animate: {
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.1
+      }
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-cream-50 via-cream-40 to-cream-50">
-      {/* Language Switcher */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="fixed top-6 right-6 z-50 flex gap-2 bg-cream-100/95 backdrop-blur-md rounded-full px-3 py-2 shadow-lg border border-cream-200/50"
-      >
-        <button
-          onClick={() => setLanguage('ru')}
-          className={`px-4 py-1 rounded-full transition-all duration-300 font-lora text-sm ${
-            language === 'ru'
-              ? 'bg-soft-gray-700 text-cream-50 font-semibold'
-              : 'text-soft-gray-600 hover:text-soft-gray-800'
-          }`}
-        >
-          RU
-        </button>
-        <button
-          onClick={() => setLanguage('hy')}
-          className={`px-4 py-1 rounded-full transition-all duration-300 font-lora text-sm ${
-            language === 'hy'
-              ? 'bg-soft-gray-700 text-cream-50 font-semibold'
-              : 'text-soft-gray-600 hover:text-soft-gray-800'
-          }`}
-        >
-          HY
-        </button>
-      </motion.div>
-
+    <div className="min-h-screen bg-white text-gray-900">
+      <AudioPlayer />
+      
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 pb-32">
-        {/* Decorative elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <motion.div
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.2, 0.3, 0.2],
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            className="absolute top-20 left-10 w-72 h-72 bg-cream-200/20 rounded-full blur-3xl"
-          />
-          <motion.div
-            animate={{
-              scale: [1, 1.3, 1],
-              opacity: [0.2, 0.3, 0.2],
-            }}
-            transition={{
-              duration: 10,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 1,
-            }}
-            className="absolute bottom-20 right-10 w-96 h-96 bg-soft-gold-200/20 rounded-full blur-3xl"
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6 py-16 sm:py-20">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/couple-1.jpeg"
+            alt="Wedding couple"
+            fill
+            className="object-cover opacity-40"
+            priority
+            style={{ backgroundAttachment: 'fixed' }}
           />
         </div>
-
-        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="mb-8"
+        
+        {/* Overlay - Much lighter */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-white/20 to-white/30 z-10"></div>
+        
+        {/* Content */}
+        <motion.div 
+          className="relative z-20 text-center px-4 max-w-6xl mx-auto"
+          variants={staggerContainer}
+          initial="initial"
+          animate="animate"
+        >
+          <motion.div 
+            className="font-dancing text-2xl md:text-3xl text-gray-600 mb-6"
+            variants={fadeInUp}
           >
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-cormorant font-light text-soft-gray-800 mb-4 tracking-wide">
-              {t('groom.name')}
-            </h1>
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.3, duration: 0.5, type: "spring" }}
-              className="flex items-center justify-center gap-4 my-6"
-            >
-              <div className="h-px w-20 bg-soft-gold-300"></div>
-              <span className="text-3xl text-soft-gold-400">✦</span>
-              <div className="h-px w-20 bg-soft-gold-300"></div>
-            </motion.div>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-cormorant font-light text-soft-gray-800 tracking-wide">
-              {t('bride.name')}
-            </h1>
+            {t('invitation.title')}
           </motion.div>
           
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.6 }}
-            className="mt-12"
+          <motion.h1 
+            className={`text-5xl sm:text-7xl md:text-9xl font-light text-gray-900 mb-6 sm:mb-8 tracking-wide ${
+              language === 'hy' ? 'font-armenian' : 'font-playfair'
+            }`}
+            variants={fadeInUp}
           >
-            <p className="text-2xl md:text-3xl lg:text-4xl font-crimson text-soft-gray-700 mb-6">
-              {t('date')}
-            </p>
-            <p className="text-lg md:text-xl text-soft-gray-600 font-lora italic mb-4">
-              {t('invitation.title')}
-            </p>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7, duration: 0.6 }}
-              className="mt-8"
-            >
-              <p className="text-lg md:text-xl text-soft-gray-700 font-lora mb-2">
-                {t('wishing.hero')}
-              </p>
-              <p className="text-base md:text-lg text-soft-gray-600 font-lora italic">
-                {t('wishing.hero.subtitle')}
-              </p>
-            </motion.div>
+            {t('groom.name')}
+          </motion.h1>
+          
+          <motion.div 
+            className="font-dancing text-4xl sm:text-6xl md:text-8xl text-gray-700 mb-6 sm:mb-8"
+            variants={fadeInUp}
+          >
+            &
+          </motion.div>
+          
+          <motion.h1 
+            className={`text-5xl sm:text-7xl md:text-9xl font-light text-gray-900 mb-6 sm:mb-8 tracking-wide ${
+              language === 'hy' ? 'font-armenian' : 'font-playfair'
+            }`}
+            variants={fadeInUp}
+          >
+            {t('bride.name')}
+          </motion.h1>
+          
+          <motion.div 
+            className="font-crimson text-xl md:text-2xl text-gray-600 mb-6"
+            variants={fadeInUp}
+          >
+            {t('wishing.hero')}
+          </motion.div>
+          
+          <motion.div 
+            className="font-playfair text-3xl md:text-4xl text-gray-800 mb-8"
+            variants={fadeInUp}
+          >
+            {t('date')}
           </motion.div>
 
           {/* Countdown Timer */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9, duration: 0.6 }}
-            className="mt-16"
+          <motion.div 
+            className="mb-16"
+            variants={fadeInUp}
           >
             <CountdownTimer />
           </motion.div>
-
-          {/* Scroll indicator */}
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="mt-16"
-          >
-            <FiChevronDown className="w-6 h-6 mx-auto text-soft-gray-400" />
-          </motion.div>
-        </div>
+        </motion.div>
       </section>
 
-      {/* Timeline Section */}
-      <section className="py-20 px-4 bg-cream-40/30 backdrop-blur-sm">
-        <div className="max-w-5xl mx-auto">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+      {/* Wedding Schedule */}
+      <section className="relative py-16 sm:py-24 px-4 sm:px-6 bg-gray-50">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/couple-2.jpeg"
+            alt="Wedding background"
+            fill
+            className="object-cover opacity-30"
+            style={{ backgroundAttachment: 'fixed' }}
+          />
+        </div>
+        <div className="absolute inset-0 z-0 bg-gradient-to-b from-white/40 via-white/30 to-white/40"></div>
+
+        <div className="max-w-4xl mx-auto z-10 relative">
+          <motion.h2 
+            className="font-playfair text-3xl sm:text-5xl md:text-6xl text-center text-gray-900 mb-16 sm:mb-20"
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-4xl md:text-5xl font-cormorant font-light text-center text-soft-gray-800 mb-16 tracking-wide"
           >
             {t('timeline.title')}
           </motion.h2>
-          
-          <div className="space-y-10">
+
+          <div className="space-y-8">
             {timeline.map((item, index) => {
               const IconComponent = item.icon;
               return (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, x: -30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1, duration: 0.6 }}
-                  whileHover={{ scale: 1.01 }}
-                  className="bg-cream-100/60 backdrop-blur-sm rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-500 border border-cream-200/50 overflow-hidden"
+                  className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300"
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ 
+                    duration: 0.8, 
+                    delay: index * 0.15,
+                    ease: [0.25, 0.46, 0.45, 0.94]
+                  }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
                 >
-                  <div className="flex flex-col lg:flex-row">
-                    {/* Image if available */}
-                    {item.image && (
-                      <motion.div
-                        whileHover={{ scale: 1.05 }}
-                        transition={{ duration: 0.3 }}
-                        className="lg:w-1/3 h-64 lg:h-auto relative overflow-hidden"
-                      >
-                        <Image
-                          src={item.image}
-                          alt={item.title}
-                          fill
-                          className="object-cover"
-                        />
-                      </motion.div>
-                    )}
-                    
-                    <div className={`flex-1 p-6 lg:p-8 ${item.image ? 'lg:w-2/3' : ''}`}>
-                      <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
-                        <div className="flex-shrink-0 flex items-center gap-4">
-                          <IconComponent className="text-4xl text-soft-gold-600" />
-                          <div className="text-right">
-                            <div className="text-3xl font-cormorant font-semibold text-soft-gray-800">
-                              {item.time}
-                            </div>
-                          </div>
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="text-2xl md:text-3xl font-cormorant font-light text-soft-gray-800 mb-2">
-                            {item.title}
-                          </h3>
-                          <p className="text-soft-gray-600 font-lora mb-4">{item.location}</p>
-                          
-                          {/* Map if available */}
-                          {item.mapUrl && (
-                            <motion.a
-                              href={item.mapUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              whileHover={{ scale: 1.05 }}
-                              className="inline-flex items-center gap-2 text-soft-gold-600 hover:text-soft-gold-700 font-lora text-sm transition-colors"
-                            >
-                              <FiMapPin className="w-4 h-4" />
-                              {t('open.map')}
-                            </motion.a>
-                          )}
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-6">
+                    {/* Icon and Time */}
+                    <div className="flex items-center gap-4">
+                      <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
+                        <IconComponent className="text-gray-600 text-2xl" />
+                      </div>
+                      <div>
+                        <div className="font-playfair text-2xl sm:text-3xl text-gray-900 font-semibold">
+                          {item.time}
                         </div>
                       </div>
                     </div>
+
+                    {/* Content */}
+                    <div className="flex-1">
+                      <h3 className="font-playfair text-xl sm:text-2xl text-gray-900 mb-3">
+                        {item.title}
+                      </h3>
+                      
+                      <div className="flex items-start mb-3">
+                        <FiMapPin className="text-gray-500 mr-3 mt-1 text-lg" />
+                        <div>
+                          <p className="font-crimson text-gray-700 whitespace-pre-line">{item.location}</p>
+                        </div>
+                      </div>
+
+                      {item.mapUrl && (
+                        <motion.a
+                          href={item.mapUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center bg-gray-900 text-white px-6 py-3 rounded-lg font-crimson font-semibold hover:bg-gray-800 transition-colors"
+                          whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+                          whileTap={{ scale: 0.95, transition: { duration: 0.1 } }}
+                        >
+                          <FiMapPin className="mr-2" />
+                          {t('open.map')}
+                        </motion.a>
+                      )}
+                    </div>
+
+                    {/* Image */}
+                    {item.image && (
+                      <div className="sm:w-64 flex-shrink-0">
+                        <Image
+                          src={item.image}
+                          alt={item.title}
+                          width={300}
+                          height={200}
+                          className="rounded-xl object-cover w-full h-40 sm:h-48 shadow-lg"
+                        />
+                      </div>
+                    )}
                   </div>
                 </motion.div>
               );
@@ -272,136 +249,62 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Gallery Section */}
-      <section className="py-20 px-4 bg-gradient-to-b from-cream-40 to-cream-50">
-        <div className="max-w-6xl mx-auto">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-4xl md:text-5xl font-cormorant font-light text-center text-soft-gray-800 mb-16 tracking-wide"
-          >
-            {t('gallery.title')}
-          </motion.h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {coupleImages.map((src, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.15, duration: 0.5 }}
-                whileHover={{ scale: 1.02 }}
-                className="relative group cursor-pointer overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-500 border border-cream-200/50"
-                onClick={() => setSelectedImage(index)}
-              >
-                <motion.div
-                  whileHover={{ scale: 1.1 }}
-                  transition={{ duration: 0.7 }}
-                  className="aspect-[4/3] relative overflow-hidden"
-                >
-                  <Image
-                    src={src}
-                    alt={`Couple photo ${index + 1}`}
-                    fill
-                    className="object-cover"
-                  />
-                </motion.div>
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  whileHover={{ opacity: 1 }}
-                  className="absolute inset-0 bg-gradient-to-t from-soft-gray-900/40 to-transparent"
-                />
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Image Modal */}
-      <AnimatePresence>
-        {selectedImage !== null && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-soft-gray-900/95 flex items-center justify-center p-4"
-            onClick={() => setSelectedImage(null)}
-          >
-            <motion.button
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              whileHover={{ scale: 1.1, rotate: 90 }}
-              className="absolute top-4 right-4 text-cream-50 text-4xl hover:text-cream-200 transition-colors font-light z-10"
-              onClick={() => setSelectedImage(null)}
-            >
-              <FiX />
-            </motion.button>
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="relative max-w-5xl max-h-[90vh] w-full h-full"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <Image
-                src={coupleImages[selectedImage]}
-                alt={`Couple photo ${selectedImage + 1}`}
-                fill
-                className="object-contain"
-              />
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       {/* Footer */}
-      <motion.footer
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="py-16 text-center bg-soft-gray-800 text-cream-50"
-      >
-        <div className="max-w-3xl mx-auto px-4">
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1, duration: 0.6 }}
-            className="text-2xl md:text-3xl font-cormorant font-light mb-4"
-          >
-            {t('wishing.footer.main')}
-          </motion.p>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-            className="text-lg md:text-xl text-cream-200 font-lora italic mb-6 leading-relaxed"
-          >
-            {t('wishing.footer.subtitle')}
-          </motion.p>
+      <footer className="bg-gray-900 text-white py-12 sm:py-16 px-4 sm:px-6">
+        <div className="max-w-4xl mx-auto text-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
             viewport={{ once: true }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-            className="mt-8 pt-8 border-t border-cream-200/20"
           >
-            <p className="text-xl font-cormorant font-light mb-2">
+            <h3 className={`font-playfair text-3xl mb-6 ${
+              language === 'hy' ? 'font-armenian' : ''
+            }`}>
               {t('groom.name')} & {t('bride.name')}
+            </h3>
+            <p className="font-crimson text-xl text-gray-300 mb-8">
+              {t('wishing.footer.subtitle')}
             </p>
-            <p className="text-cream-200 font-lora text-sm mb-4">{t('date')}</p>
-            <p className="text-cream-300 font-lora text-sm italic">
-              {t('wishing.footer.closing')}
-            </p>
+            <div className="font-crimson text-gray-400">
+              <p>{t('wishing.footer.main')}</p>
+              <p className="mt-2">{t('date')}</p>
+              <p className="mt-2 text-sm">{t('wishing.footer.closing')}</p>
+            </div>
           </motion.div>
         </div>
-      </motion.footer>
+      </footer>
+
+      {/* Language Switcher */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="fixed top-6 right-6 z-50 flex gap-2 bg-white/95 backdrop-blur-md rounded-full px-3 py-2 shadow-lg border border-gray-200"
+      >
+        <button
+          onClick={() => setLanguage('ru')}
+          className={`p-2 rounded-full transition-all duration-300 ${
+            language === 'ru'
+              ? 'bg-gray-100 scale-110 shadow-md ring-2 ring-gray-300'
+              : 'hover:scale-105 hover:bg-gray-50'
+          }`}
+          title="Russian"
+        >
+          <RussianFlag />
+        </button>
+        <button
+          onClick={() => setLanguage('hy')}
+          className={`p-2 rounded-full transition-all duration-300 ${
+            language === 'hy'
+              ? 'bg-gray-100 scale-110 shadow-md ring-2 ring-gray-300'
+              : 'hover:scale-105 hover:bg-gray-50'
+          }`}
+          title="Armenian"
+        >
+          <ArmenianFlag />
+        </button>
+      </motion.div>
     </div>
   );
 }
