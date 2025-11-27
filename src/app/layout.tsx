@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, Crimson_Text, Lora, Dancing_Script, Great_Vibes, Noto_Serif_Armenian, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { AudioProvider } from "@/contexts/AudioContext";
 import { Suspense } from "react";
 
 const cormorant = Cormorant_Garamond({
@@ -63,7 +64,9 @@ export default function RootLayout({
       >
         <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="text-soft-gray-600">Loading...</div></div>}>
           <LanguageProvider>
-            {children}
+            <AudioProvider>
+              {children}
+            </AudioProvider>
           </LanguageProvider>
         </Suspense>
       </body>

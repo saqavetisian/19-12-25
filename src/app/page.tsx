@@ -6,11 +6,13 @@ import CountdownTimer from "@/components/CountdownTimer";
 import AudioPlayer from "@/components/AudioPlayer";
 import { RussianFlag, ArmenianFlag } from "@/components/Flags";
 import { motion } from "framer-motion";
-import { FiMapPin, FiChevronDown, FiHome, FiHeart } from "react-icons/fi";
+import { FiMapPin, FiChevronDown, FiHome, FiHeart, FiPlay, FiPause } from "react-icons/fi";
 import { MdChurch, MdRestaurant } from "react-icons/md";
+import { useAudio } from "@/contexts/AudioContext";
 
 export default function Home() {
   const { t, language, setLanguage } = useLanguage();
+  const { isPlaying, togglePlay } = useAudio();
 
   const timeline = [
     {
@@ -134,6 +136,26 @@ export default function Home() {
             variants={fadeInUp}
           >
             {t('date')}
+          </motion.div>
+
+          {/* Audio Play/Stop Button */}
+          <motion.div 
+            className="mb-8"
+            variants={fadeInUp}
+          >
+            <motion.button
+              onClick={togglePlay}
+              className="bg-white/80 backdrop-blur-sm rounded-full p-4 border-2 border-gray-300 hover:bg-white/90 transition-all duration-300 shadow-lg"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              aria-label={isPlaying ? 'Stop' : 'Play'}
+            >
+              {isPlaying ? (
+                <FiPause className="text-3xl text-gray-800" />
+              ) : (
+                <FiPlay className="text-3xl text-gray-800" />
+              )}
+            </motion.button>
           </motion.div>
 
           {/* Countdown Timer */}
@@ -269,6 +291,7 @@ export default function Home() {
             <div className="font-crimson text-gray-400">
               <p>{t('wishing.footer.main')}</p>
               <p className="mt-2">{t('date')}</p>
+              <p className="mt-4 text-lg text-gray-200 font-semibold">{t('rsvp.text')}</p>
               <p className="mt-2 text-sm">{t('wishing.footer.closing')}</p>
             </div>
           </motion.div>

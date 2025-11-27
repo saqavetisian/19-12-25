@@ -1,70 +1,14 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { FiVolume2, FiVolumeX, FiMusic } from 'react-icons/fi';
+import { useAudio } from '@/contexts/AudioContext';
 
 export default function AudioPlayer() {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
-  const audioRef = useRef<HTMLAudioElement>(null);
-
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    // Try to autoplay
-    const tryAutoplay = async () => {
-      try {
-        await audio.play();
-        setIsPlaying(true);
-      } catch (error) {
-        // Autoplay was prevented, user needs to interact
-        console.log('Autoplay prevented');
-      }
-    };
-
-    tryAutoplay();
-
-    const handlePlay = () => setIsPlaying(true);
-    const handlePause = () => setIsPlaying(false);
-
-    audio.addEventListener('play', handlePlay);
-    audio.addEventListener('pause', handlePause);
-
-    return () => {
-      audio.removeEventListener('play', handlePlay);
-      audio.removeEventListener('pause', handlePause);
-    };
-  }, []);
-
-  const togglePlay = () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    if (isPlaying) {
-      audio.pause();
-    } else {
-      audio.play();
-    }
-  };
-
-  const toggleMute = () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    audio.muted = !isMuted;
-    setIsMuted(!isMuted);
-  };
+  const { isPlaying, isMuted, togglePlay, toggleMute } = useAudio();
 
   return (
-    <>
-      <audio
-        ref={audioRef}
-        src="/audio.mp3"
-        loop
-        preload="auto"
-      />
-      <motion.div
+    <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1 }}
@@ -93,6 +37,5 @@ export default function AudioPlayer() {
           )}
         </button>
       </motion.div>
-    </>
   );
 }
