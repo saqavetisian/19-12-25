@@ -285,13 +285,11 @@ export default function Home() {
             }`}>
               {t('groom.name')} & {t('bride.name')}
             </h3>
-            <p className="font-crimson text-xl text-gray-300 mb-8">
-              {t('wishing.footer.subtitle')}
-            </p>
+            <p className="mt-4 text-lg text-gray-200 font-semibold">{t('rsvp.text')}</p>
+
             <div className="font-crimson text-gray-400">
               <p>{t('wishing.footer.main')}</p>
               <p className="mt-2">{t('date')}</p>
-              <p className="mt-4 text-lg text-gray-200 font-semibold">{t('rsvp.text')}</p>
               <p className="mt-2 text-sm">{t('wishing.footer.closing')}</p>
             </div>
           </motion.div>
